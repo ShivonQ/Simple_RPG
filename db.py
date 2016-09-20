@@ -28,8 +28,9 @@ class Hero_Model(Base_Model):
     money = IntegerField(null=False, default=0)
     next_level = IntegerField(null=False, default=100)
 
-    def add_monster(self):
+    def add_monster(self,monster_object):
         print('Adding a Monster')
+        new_monster = Monster_Model.create(name=)
 
 
     def Create_Hero_Save(self, hero_object):
@@ -43,7 +44,7 @@ class Hero_Model(Base_Model):
                                      level=hero_object.level,
                                      money=hero_object.money,
                                      next_level=hero_object.next_level)
-
+        new_save.save()
 
     def modify_Hero_Save(self,hero_object):
         # This will overwrite anything in the old file with the new info

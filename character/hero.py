@@ -8,7 +8,7 @@ class Hero(Character):
         self.state = 'normal'
         self.hp = 10
         self.max_hp = 10
-        self.armor = 2  # Used to figure out if you missed
+        self.armor = 1  # Used to figure out if you missed
         self.strength = 3  # Used for the max on damage
         self.xp = 0
         self.level = 1
