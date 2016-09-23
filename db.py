@@ -30,7 +30,9 @@ class Hero_Model(Base_Model):
 
     def add_monster(self,monster_object):
         print('Adding a Monster')
-        new_monster = Monster_Model.create(name=)
+        new_monster = Monster_Model.create(name=monster_object.name,
+                                           max_hp = monster_object.max_hp,
+                                           )
 
 
     def Create_Hero_Save(self, hero_object):
