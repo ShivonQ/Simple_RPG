@@ -2,7 +2,8 @@ from database import admin_displays
 from database import db
 import sys
 
-def Admin_DB():
+
+def admin_db():
     while True:
         admin_displays.display_admin_menu()
         choice = 0
@@ -31,7 +32,7 @@ def login_loop():
         u_name = input('Please enter your username.\n')
         pw = input('Please enter your password\n')
         valid_or_not = db.check_for_admin_priveleges(u_name,pw)
-    Admin_DB()
+    admin_db()
 
 
 def insert_monster_loop():
