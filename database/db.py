@@ -1,47 +1,17 @@
 from peewee import *
-
+from tabulate import tabulate
 from database import peewee_model
+from database import admin_displays
 
-# this is our database handler, it calls on the peewee models that are set up
+# this is our database handler, it calls on the peewee data models that are set up
 db = SqliteDatabase('simple_rpg.db')
 
-#
-# class Base_Model(Model):
-#     class Meta:
-#         database = db
-#
-#
-# class Admin_User():
-#     username = CharField(max_length=20, unique=True)
-#     password = CharField(max_length=30, unique=True)
-#
-#
-# class Monster_Model(Base_Model):
-#     name = CharField(max_length=60, unique=False)
-#     max_hp = IntegerField(null=False, default=1)
-#     strength = IntegerField(null=False, default=1)
-#     armor = IntegerField(null=False, default=1)
-#     level = IntegerField(null=False, default=1)
-#     xp_value = IntegerField(null=False, default=10)
-#
-#
-# class Hero_Model(Base_Model):
-#     name = CharField(max_length=60, unique=True)
-#     # TODO: Maybe Use _ID instead to filter. That way There can be multiple saves of same name.
-#     current_hp = IntegerField(null=False)
-#     max_hp = IntegerField(null=False, default=1)
-#     armor = IntegerField(null=False, default=1)
-#     strength = IntegerField(null=False, default=1)
-#     xp = IntegerField(null=False, default=0)
-#     level = IntegerField(null=False, default=1)
-#     money = IntegerField(null=False, default=0)
-#     next_level = IntegerField(null=False, default=100)
-#
+
 # and adds or modifies them.
 def add_monster(monster_object):
     print('Adding a Monster')
     new_monster = peewee_model.Monster_Model.create(name=monster_object.name,
-                                                    max_hp = monster_object.max_hp,
+                                                    max_hp=monster_object.max_hp,
                                                     )
 
 
@@ -59,7 +29,7 @@ def create_hero_save(hero_object):
     new_save.save()
 
 
-def modify_Hero_Save(hero_object):
+def modify_hero_save(hero_object):
     # This will overwrite anything in the old file with the new info
     this_hero = peewee_model.Hero_Model.get(peewee_model.Hero_Model.name.startswith(hero_object.name))
     this_hero.current_hp = hero_object.hp
@@ -73,7 +43,57 @@ def modify_Hero_Save(hero_object):
     this_hero.save()
 
 
-def add_Admin_User(user_object):
+def add_admin_user(user_object):
     this_admin = peewee_model.Admin_User.create(username=user_object.username,
                                                 password=user_object.password)
     this_admin.save()
+
+
+def check_for_admin_priveleges(username, password):
+    try:
+        admin = peewee_model.Admin_User.get(peewee_model.Admin_User.startswith(username))
+        if admin.password == password:
+            admin_displays.display_successful_login()
+            return True
+        else:
+            admin_displays.display_invalid_pw()
+            return False
+    except DoesNotExist:
+        admin_displays.display_invalid_login_attempt()
+        return False
+
+
+def delete_hero(hero_name):
+    try:
+        this_record = peewee_model.Hero_Model.get(peewee_model.Hero_Model.name.startswith(hero_name))
+        this_record.delete_instance()
+
+    except DoesNotExist:
+        print('Sorry, but {} doesn\'t exist, and cannot be deleted.'.format(hero_name))
+
+
+def show_all_heroes():
+    big_list = []
+    for record in peewee_model.Hero_Model:
+        small_list = compile_hero_record(record)
+        big_list.append(small_list)
+    print(tabulate(big_list, headers=['Hero Name', 'Level', 'XP', 'Next Level', 'Money'], tablefmt='pipe'))
+
+
+def show_all_monsters():
+    big_list = []
+    for monster in peewee_model.Monster_Model:
+        small = compile_monster_record(monster)
+        big_list.append(small)
+    print(tabulate(big_list, headers=['Name', 'Level', 'Max HP', 'Strength', 'Armor' 'XP Value', 'Money'],
+                   tablefmt='pipe'))
+
+
+def compile_hero_record(record):
+    small_list = [record.name,record.level, record.xp, record.next_level, record.money]
+    return small_list
+
+
+def compile_monster_record(record):
+    small_list = [record.name, record.level, record.max_hp, record.strength, record.armor, record.xp_val, record.money]
+    return small_list
