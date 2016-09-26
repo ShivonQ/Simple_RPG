@@ -17,12 +17,11 @@ class Admin_User(Base_Model):
 class Monster_Model(Base_Model):
     name = CharField(max_length=60, unique=True)
     max_hp = IntegerField(null=False, default=1)
-    strength = IntegerField(null=False, default=1)
-    armor = IntegerField(null=False, default=1)
-    level = IntegerField(null=False, default=1)
     xp_value = IntegerField(null=False, default=5)
     money = IntegerField(null=False, default=0)
-
+    armor = IntegerField(null=False, default=1)
+    strength = IntegerField(null=False, default=1)
+    level = IntegerField(null=False, default=1)
 
 class Hero_Model(Base_Model):
     name = CharField(max_length=60, unique=True)
@@ -35,3 +34,4 @@ class Hero_Model(Base_Model):
     level = IntegerField(null=False, default=1)
     money = IntegerField(null=False, default=0)
     next_level = IntegerField(null=False, default=100)
+

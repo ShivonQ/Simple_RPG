@@ -2,7 +2,8 @@ from peewee import *
 from tabulate import tabulate
 from database import peewee_model
 from database import admin_displays
-
+import sqlite3
+# TODO: Add try Excepts to all saves,
 # this is our database handler, it calls on the peewee data models that are set up
 db = SqliteDatabase('simple_rpg.db')
 
@@ -12,7 +13,13 @@ def add_monster(monster_object):
     print('Adding a Monster')
     new_monster = peewee_model.Monster_Model.create(name=monster_object.name,
                                                     max_hp=monster_object.max_hp,
+                                                    xp_val=monster_object.xp_val,
+                                                    money=monster_object.money,
+                                                    armor=monster_object.armor,
+                                                    strength=monster_object.strength,
+                                                    level=monster_object.level
                                                     )
+    new_monster.save()
 
 
 def create_hero_save(hero_object):
