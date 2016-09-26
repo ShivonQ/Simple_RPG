@@ -1,8 +1,10 @@
 import Character
-import data
+from character import data
+
+
 class Hero(Character):
-    def __init__(self):
-        Character.__init__(self)
+    def __init__(self, name, hp, max_hp, armor, strength, xp, level, money, next_level):
+        super.__init__(name)
         # in the future a additional Class class will grant further inheritence
         # Which will make many of these happen there, not here.
         self.state = 'normal'
@@ -17,6 +19,12 @@ class Hero(Character):
 
     def gain_xp(self, xp):
         self.xp += xp
+        if xp >= self.next_level:
+            # If the Heros XP is more than the next level
+            # Level him up
+            self.gain_level()
+        else:
+            pass
         print('{} gained {} xp!'.format(self.name, xp))
 
     def gain_level(self):
@@ -25,10 +33,13 @@ class Hero(Character):
         next_level_xp = levels[self.level+1]
         # check for if the next hero level has been reached.
         if next_level_xp <= self.xp:
+            #
             self.level += 1
             print('{} Gained a Level! {} is now level {}!\n')
             self.next_level = next_level_xp
     #TODO:   THIS WILL ALSO INCREASE VARIOUS ABILITIES FOR THE HERO
+    # At a certain Rate
+    """What about +2 max_hp, +1 Damage (Base), +1 Armor (every other level {if level%2 == 0})"""
 
     def status(self):
         print('_________HERO_STATUS__________\n'
