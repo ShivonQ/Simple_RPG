@@ -25,6 +25,13 @@ class GameDisplay(Frame):
                                   textvariable=self._heroHpStr)
         self._heroHpEntry.grid(row=0, column=3)
 
+        self._heroArmorLabel = Label(self, text="Hero Armor")
+        self._heroArmorLabel.grid(row=0, column=4)
+        self._heroArmorStr = StringVar()
+        self._heroArmorEntry = Entry(self,
+                                  textvariable=self._heroArmorStr)
+        self._heroArmorEntry.grid(row=0, column=5)
+
         self._monsterLabel = Label(self, text="Monster")
         self._monsterLabel.grid(row=1, column=0)
         self._monsterStr = StringVar()
@@ -38,6 +45,8 @@ class GameDisplay(Frame):
         self._monsterHpEntry = Entry(self,
                                      textvariable=self._monsterHpStr)
         self._monsterHpEntry.grid(row=1, column=3)
+
+
 
         self._locationLabel = Label(self, text="Battle Location")
         self._locationLabel.grid(row=3, column=0)
