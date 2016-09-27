@@ -1,4 +1,4 @@
-import Character
+from character import Character
 from character import data
 
 
@@ -16,6 +16,22 @@ class Hero(Character):
         self.level = 1
         self.money = 5
         self.next_level = 100
+
+    # TODO: Add a kill Counter for additional Highscore info
+
+    def set_starter_stats(self):
+        self.armor = 1
+        self.strength = 3
+
+    def set_opened_save_stats(self,hp,max_hp,armor,strength,xp,level,money,next_level):
+        self.hp = hp
+        self.max_hp=max_hp
+        self.armor = armor
+        self.strength = strength
+        self.xp = xp
+        self.level = level
+        self.money = money
+        self.next_level = next_level
 
     def gain_xp(self, xp):
         self.xp += xp

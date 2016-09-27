@@ -7,6 +7,16 @@ from database.peewee_model import *
 from database.Admin_User import *
 
 
+def make_default_admin():
+    u = 'admin'
+    pw = 'password'
+    try:
+        new_admin = Admin_User(u,pw)
+        new_admin.save()
+    except IntegrityError:
+        print('         ')
+
+
 def admin_db():
     while True:
         admin_displays.display_admin_menu()
@@ -30,6 +40,7 @@ def admin_db():
 
 
 def login_loop():
+    make_default_admin()
     valid_or_not = False
     while valid_or_not == False:
         admin_displays.display_admin_login()
@@ -121,40 +132,48 @@ def delete_monster_loop():
                 break
 
 
-
-
 def delete_hero_loop():
     print('Here we delete a hero')
     delete_loop = True
     while delete_loop:
-        show_all_heroes()
-        to_delete = input('Which Hero do you want to delete? Enter it\'s name.')
-        while True:
-            y_o_n = input('You are trying to delete {}, is that the record you mean to delete?'.format(to_delete))
-            if y_o_n.lower() == 'y' or y_o_n.lower == 'yes':
-                try:
-                    this_record = Hero_Model.get(Hero_Model.name.startswith(to_delete))
-                except DoesNotExist:
-                    print('That Hero Does not exist.')
+        present = show_all_heroes()
+        if present == False:
+            print('Sorry, there are no Heros as you can see.')
+            break
+        else:
+            to_delete = input('Which Hero do you want to delete? Enter it\'s name.')
+            while True:
+                y_o_n = input('You are trying to delete {}, is that the record you mean to delete?'.format(to_delete))
+                if y_o_n.lower() == 'y' or y_o_n.lower == 'yes':
+                    try:
+                        this_record = Hero_Model.get(Hero_Model.name.startswith(to_delete))
+                    except DoesNotExist:
+                        print('That Hero Does not exist.')
+                        delete_loop = False
+                        break
+                    this_record.delete_instance()
+                    # TODO: Make sure that if there are no records at all this either stops or doesn't begin at all.
                     delete_loop = False
                     break
-                this_record.delete_instance()
-                # TODO: Make sure that if there are no records at all this either stops or doesn't begin at all.
-                delete_loop = False
-                break
-            else:
-                print('The delete was aborted.')
-                break
+                else:
+                    print('The delete was aborted.')
+                    break
 
 
 def create_admin_loop():
     print('here we make more admins')
+    username = input('What will this admins username be?')
+    pw = input('What will this Admins Password Be?')
+
+    new_admin = Admin_User(username,pw)
+    new_admin.save()
+
 
 def delete_admin_loop():
-    print('Here we delte other admins.\n'
+    print('Here we delete other admins.\n'
           '-----DANGEROUS TERRITORY-----\n'
           '----DONT DELETE YOURSELF!----')
-#     TODO: Figure out a way to make sure that there is always one admin
+#     TODO: Figure out a way to make sure that there is always one admin before we implement this.
 
 
-admin_db()
+login_loop()

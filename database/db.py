@@ -86,6 +86,10 @@ def show_all_heroes():
         big_list.append(small_list)
     #     TODO: add an empty list stopper or something
     print(tabulate(big_list, headers=['Hero Name', 'Level', 'XP', 'Next Level', 'Money'], tablefmt='pipe'))
+    if len(big_list)<1:
+        return False
+    else:
+        return True
 
 
 def show_all_monsters():
@@ -96,6 +100,10 @@ def show_all_monsters():
     #     TODO: Add a if table is empty dont print anything/skip it all
     print(tabulate(big_list, headers=['Name', 'Level', 'Max HP', 'Strength', 'Armor', 'XP Value', 'Money'],
                    tablefmt='pipe'))
+    if len(big_list)<1:
+        return False
+    else:
+        return True
 
 
 def compile_hero_record(record):
