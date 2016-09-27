@@ -1,10 +1,10 @@
 from database import admin_displays
-from database import db
+from database.db import *
 import sys
-import peewee
 from sqlite3 import IntegrityError
 from character.Monster import *
-from database import Admin_User
+from database.peewee_model import *
+from database.Admin_User import *
 
 
 def admin_db():
@@ -98,11 +98,29 @@ def insert_monster_loop():
             print('Sorry that was not an Integer.')
 
     new_monster = Monster(name,max_hp,xp_val,money,armor,strength,level)
-    db.add_monster(new_monster)
+    add_monster(new_monster)
 
 
 def delete_monster_loop():
     print('Here we Delete a monster')
+    # Call the show monster function from db.py
+    delete_loop = True
+    while delete_loop:
+        show_all_monsters()
+        to_delete = input('Which monster do you want to delete? Enter it\'s name.')
+        while True:
+            y_o_n = input('You are trying to delete {}, is that the record you mean to delete?'.format(to_delete))
+            if y_o_n.lower() == 'y' or y_o_n.lower == 'yes':
+                this_record = Monster_Model.get(Monster_Model.name.startswith(to_delete))
+                this_record.delete_instance()
+                # TODO: Make sure that if there are no records at all this either stops or doesn't begin at all.
+                delete_loop = False
+                break
+            else:
+                print('The delete was aborted.')
+                break
+
+
 
 
 def delete_hero_loop():

@@ -35,3 +35,4 @@ class Hero_Model(Base_Model):
     money = IntegerField(null=False, default=0)
     next_level = IntegerField(null=False, default=100)
 
+
