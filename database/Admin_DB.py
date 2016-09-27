@@ -96,7 +96,7 @@ def insert_monster_loop():
                 break
         except ValueError:
             print('Sorry that was not an Integer.')
-
+    # Now that all that data has been collected we toss it into the Peewee model, and send it to the DB
     new_monster = Monster(name,max_hp,xp_val,money,armor,strength,level)
     add_monster(new_monster)
 
@@ -125,10 +125,36 @@ def delete_monster_loop():
 
 def delete_hero_loop():
     print('Here we delete a hero')
+    delete_loop = True
+    while delete_loop:
+        show_all_heroes()
+        to_delete = input('Which Hero do you want to delete? Enter it\'s name.')
+        while True:
+            y_o_n = input('You are trying to delete {}, is that the record you mean to delete?'.format(to_delete))
+            if y_o_n.lower() == 'y' or y_o_n.lower == 'yes':
+                try:
+                    this_record = Hero_Model.get(Hero_Model.name.startswith(to_delete))
+                except DoesNotExist:
+                    print('That Hero Does not exist.')
+                    delete_loop = False
+                    break
+                this_record.delete_instance()
+                # TODO: Make sure that if there are no records at all this either stops or doesn't begin at all.
+                delete_loop = False
+                break
+            else:
+                print('The delete was aborted.')
+                break
 
 
 def create_admin_loop():
     print('here we make more admins')
+
+def delete_admin_loop():
+    print('Here we delte other admins.\n'
+          '-----DANGEROUS TERRITORY-----\n'
+          '----DONT DELETE YOURSELF!----')
+#     TODO: Figure out a way to make sure that there is always one admin
 
 
 admin_db()
