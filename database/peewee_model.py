@@ -23,6 +23,7 @@ class Monster_Model(Base_Model):
     strength = IntegerField(null=False, default=1)
     level = IntegerField(null=False, default=1)
 
+
 class Hero_Model(Base_Model):
     name = CharField(max_length=60, unique=True)
     # TODO: Maybe Use _ID instead to filter. That way There can be multiple saves of same name.

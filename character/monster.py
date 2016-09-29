@@ -11,7 +11,7 @@ class Monster(Character):
         self.xp_val = xp_val
         self.money = money
         self.level = level
-        self.set_str_and_armor(strength,armor)
+        self.set_str_and_armor(strength, armor)
 
 
     def set_str_and_armor(self, str, arm):
