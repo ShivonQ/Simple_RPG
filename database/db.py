@@ -3,6 +3,7 @@ from tabulate import tabulate
 from database.peewee_model import *
 from database.admin_displays import *
 from character.Monster import Monster
+from character.Hero import Hero
 import sqlite3
 # TODO: Add try Excepts to all saves,
 # this is our database handler, it calls on the peewee data models that are set up
@@ -38,10 +39,34 @@ def create_hero_save(hero_object):
 
 
 def fetch_monster_make_object(level):
-    this_monster = Monster_Model.get(Monster_Model.level(level))
+    # Make sure this returns all monsters that meet the criteria
+    try:
+        this_monster = Monster_Model.select(Monster_Model.level(level))
+        final_monster = Monster(this_monster.name, this_monster.max_hp, this_monster.xp_value, this_monster.money,
+                                this_monster.strength, this_monster.level)
+        return final_monster
+    except DoesNotExist:
+        print('The monster requested does not exist')
+        return None
+
 # name, max_hp, xp_val, money, armor, strength, level
-    final_monster = Monster(this_monster.name,this_monster.max_hp, this_monster.xp_value,this_monster.money,this_monster.strength, this_monster.level)
-    return final_monster
+
+
+def fetch_hero_make_object(name):
+    # get the save data
+    this_hero = Hero_Model.get(Hero_Model.name.startswith(name))
+    # initialize the object
+    hero_object = Hero(name)
+    # call the set_opened_save function
+    hero_object.set_opened_save_stats(this_hero.current_hp,
+                                      this_hero.max_hp,
+                                      this_hero.armor,
+                                      this_hero.strength,
+                                      this_hero.xp,
+                                      this_hero.level,
+                                      this_hero.money,
+                                      this_hero.next_level)
+    return hero_object
 
 
 def modify_hero_save(hero_object):
