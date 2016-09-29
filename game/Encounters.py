@@ -18,7 +18,6 @@ def did_random_rest_encounter_occur(hero):
         print('You sleep peacefully.')
 
 
-
 def random_monster_encounter(hero):
     print('Placeholder Print from random_monster_encounter method')
     # figure out the levels the monsters can be, not too low or too high
@@ -26,6 +25,11 @@ def random_monster_encounter(hero):
     # grab a monster, send it back for fighting
     monster = fetch_monster_make_object(random_level)
     return monster
+
+# def set_up_battle
+
+def bettle_time(hero,monster):
+
 
 
 

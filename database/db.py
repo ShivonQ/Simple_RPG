@@ -42,8 +42,14 @@ def fetch_monster_make_object(level):
     # Make sure this returns all monsters that meet the criteria
     try:
         this_monster = Monster_Model.select(Monster_Model.level(level))
-        final_monster = Monster(this_monster.name, this_monster.max_hp, this_monster.xp_value, this_monster.money,
-                                this_monster.strength, this_monster.level)
+        # base initialize object
+        final_monster = Monster(this_monster.name,
+                                this_monster.xp_value,
+                                this_monster.money,
+                                this_monster.level)
+        #fill in extra data
+        final_monster.set_str_and_armor(this_monster.strength, this_monster.armor, this_monster.max_hp)
+        # return that monster
         return final_monster
     except DoesNotExist:
         print('The monster requested does not exist')
