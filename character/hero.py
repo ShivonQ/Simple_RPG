@@ -1,15 +1,13 @@
-from character import Character
+from character.Character import Character
 from character import data
 
 
 class Hero(Character):
-    def __init__(self, name, hp, max_hp, armor, strength, xp, level, money, next_level):
-        super.__init__(name)
+    def __init__(self, name):
+        super().__init__(name)
         # in the future a additional Class class will grant further inheritence
         # Which will make many of these happen there, not here.
         self.state = 'normal'
-        self.hp = 10
-        self.max_hp = 10
         self.armor = 1  # Used to figure out if you missed
         self.strength = 3  # Used for the max on damage
         self.xp = 0
@@ -19,9 +17,15 @@ class Hero(Character):
 
     # TODO: Add a kill Counter for additional Highscore info
 
+    def set_state(self, new_state):
+        self.state = new_state
+
+
+
     def set_starter_stats(self):
         self.armor = 1
         self.strength = 3
+        self.max_hp = 10
 
     def set_opened_save_stats(self,hp,max_hp,armor,strength,xp,level,money,next_level):
         self.hp = hp

@@ -8,6 +8,7 @@ class Character:
         self.armor = 0 # This is the base armor rating
     # #     Damage vs Armor, if damage <= armor 'You Missed'
     #     self.money = 0
+        self.hp = 1
 
     def attack_enemy(self, enemy):
         damage_amount = randint(1, self.strength)

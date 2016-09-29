@@ -28,7 +28,7 @@ def random_monster_encounter(hero):
 
 # def set_up_battle
 
-def bettle_time(hero,monster):
+def battle_time(hero,monster):
 
 
 
