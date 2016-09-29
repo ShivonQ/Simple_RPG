@@ -2,6 +2,7 @@ from peewee import *
 from tabulate import tabulate
 from database.peewee_model import *
 from database.admin_displays import *
+from character.Monster import Monster
 import sqlite3
 # TODO: Add try Excepts to all saves,
 # this is our database handler, it calls on the peewee data models that are set up
@@ -34,6 +35,13 @@ def create_hero_save(hero_object):
                                               money=hero_object.money,
                                               next_level=hero_object.next_level)
     new_save.save()
+
+
+def fetch_monster_make_object(level):
+    this_monster = Monster_Model.get(Monster_Model.level(level))
+# name, max_hp, xp_val, money, armor, strength, level
+    final_monster = Monster(this_monster.name,this_monster.max_hp, this_monster.xp_value,this_monster.money,this_monster.strength, this_monster.level)
+    return final_monster
 
 
 def modify_hero_save(hero_object):

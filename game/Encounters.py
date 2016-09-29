@@ -21,10 +21,13 @@ def did_random_rest_encounter_occur(hero):
 
 def random_monster_encounter(hero):
     print('Placeholder Print from random_monster_encounter method')
-    monster_level_range = []
-    for number in range(hero.level-1,hero.level+3):
-        monster_level_range.append(number)
+    # figure out the levels the monsters can be, not too low or too high
+    random_level = randint(hero.level - 1, hero.level + 2)
+    # grab a monster, send it back for fighting
+    monster = fetch_monster_make_object(random_level)
+    return monster
 
-    random_int = randint(hero.level-1,hero.level+2)
+
+
 
 
