@@ -20,6 +20,7 @@ class Hero(Character):
 
     def set_state(self, new_state):
         self.state = new_state
+    #     This will only be used in the next version of the game for state checking so people cant fighrt when theyre at the merchant etc
 
 
 
