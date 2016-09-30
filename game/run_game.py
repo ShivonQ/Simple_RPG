@@ -5,10 +5,10 @@ import peewee
 from database.db import db
 
 
-def game():
+def run_game():
     print('The game is running theoretically.')
 
 db.connect()
 db.create_tables([Hero_Model,Monster_Model,Admin_User], safe=True)
 
-game()
+run_game()

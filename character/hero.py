@@ -14,6 +14,7 @@ class Hero(Character):
         self.level = 1
         self.money = 5
         self.next_level = 100
+        '''self.killcount = 0'''
 
     # TODO: Add a kill Counter for additional Highscore info
 
@@ -36,6 +37,7 @@ class Hero(Character):
         self.level = level
         self.money = money
         self.next_level = next_level
+        '''self.killcount=killcount'''
 
     def gain_xp(self, xp):
         self.xp += xp
@@ -58,9 +60,7 @@ class Hero(Character):
         self.level += 1
         print('{} Gained a Level! {} is now level {}!\n')
         self.next_level = next_level_xp
-    #TODO:   THIS WILL ALSO INCREASE VARIOUS ABILITIES FOR THE HERO
-    # At a certain Rate
-    """What about +2 max_hp, +1 Damage (Base), +1 Armor (every other level {if level%3 == 0})"""
+    """What about +3 max_hp, +1 Damage (Base), +1 Armor (every 3 levels {if level%3 == 0})"""
 
     def status(self):
         print('_________HERO_STATUS__________\n'

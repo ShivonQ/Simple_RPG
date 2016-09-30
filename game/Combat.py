@@ -22,13 +22,15 @@ class Combat:
             round_counter = 0
             # for each person in combat, let them take their turn
             for participant in list_of_participants:
-                # This variable is for implementatino of potions
+                # This variable is for implementatino of potions (since they last a limited time)
                 round_counter += 1
                 self.take_a_turn(participant)
+        #         if you are dead... exit combat after calling a HighScoreSave() method
         if self.hero.current_hp <= 0:
             print('You have died.')
             '''This part here will be where the hall of fame stuff happens.  To be figured out later.
             My need to add 'state' to the DB in order to track who has died and who hasnt.'''
+        #     If the monster is dead, get that cash and xp
         if self.monster.current_hp <= 0:
             self.hero.gain_xp(self.monster.xp_val)
             self.hero.money += self.monster.money
@@ -63,3 +65,7 @@ class Combat:
             except ValueError:
                 print('{} is baffled by your choice, and looks beseechingly towards the sky for guidance.'.format(
                     self.hero.name))
+
+
+    def monster_turn(self):
+        self.monster.attack_enemy(self.hero)

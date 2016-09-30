@@ -3,12 +3,31 @@ from tabulate import tabulate
 from database.peewee_model import *
 from database.admin_displays import *
 from character.Monster import Monster
+from random import randint
 from character.Hero import Hero
+from time import sleep
 import sqlite3
 # TODO: Add try Excepts to all saves,
 # this is our database handler, it calls on the peewee data models that are set up
 db = SqliteDatabase('simple_rpg.db')
 
+
+def did_random_rest_encounter_occur(hero):
+    chance = randint(1, 100)
+    chance_range = (1,13,37,57,68)
+    if chance in chance_range:
+        print('A wild Monster attacked while you rest!')
+#         TODO: Call monster encounter method
+    else:
+        print('You sleep peacefully.')
+
+
+def random_monster_encounter(hero):
+    print('Placeholder Print from random_monster_encounter method')
+    # figure out the levels the monster can be, not too low or too high
+    random_level = randint(hero.level - 1, hero.level + 2)
+    # grab a monster, send it back for fighting
+    monster = fetch_monster_make_object(random_level)
 
 # and adds or modifies them.
 def add_monster(monster_object):
@@ -37,23 +56,43 @@ def create_hero_save(hero_object):
                                               next_level=hero_object.next_level)
     new_save.save()
 
-
 def fetch_monster_make_object(level):
-    # Make sure this returns all monsters that meet the criteria
-    try:
-        this_monster = Monster_Model.select(Monster_Model.level(level))
-        # base initialize object
-        final_monster = Monster(this_monster.name,
-                                this_monster.xp_value,
-                                this_monster.money,
-                                this_monster.level)
-        #fill in extra data
-        final_monster.set_str_and_armor(this_monster.strength, this_monster.armor, this_monster.max_hp)
-        # return that monster
-        return final_monster
-    except DoesNotExist:
-        print('The monster requested does not exist')
-        return None
+    '''THE ONLY REAL FIX FOR THIS IS TO DO MULTITHREADING APPARENTLY
+        SINCE I PUT IN THE PAUSES IT IS FAR MORE LIKELY TO SUCCEED THAN NOT.  BUT IT STILL CRASHES SOMETIMES'''
+    # TODO: Make this Multithreaded for true success
+    if level <= 0:
+        level = 1
+    list_o = []
+    for monster in Monster_Model.select():
+        print('Made it into the loop1')
+        if monster.level == level:
+            print('made it inot the loop')
+            loop_mon = Monster(monster.name,monster.xp_value,monster.money,monster.level)
+            loop_mon.set_str_and_armor(monster.strength, monster.armor, monster.max_hp)
+            sleep(0.1)
+            list_o.append(loop_mon)
+    sleep(1)
+
+    rand_mons = randint(0, len(list_o))
+    final_mons = list_o[rand_mons]
+    return final_mons
+
+# def fetch_monster_make_object(level):
+    '''FOR SOME REASON THIS METHOD CONSTANTLY RETURNED NOTHING, WHEN I REWROTE IT ABOVE IT WORKED.'''
+    # # Make sure this returns all monsters that meet the criteria
+    # monster_list = []
+    # if level == 0:
+    #     level += 1
+    # print(str(level)+'<----------level')
+    # # Dig up monsters that fit the bill
+    # for monster in Monster_Model:
+    #     if monster.level == level:
+    #         loop_mon = Monster(monster.name,monster.xp_value,monster.money,monster.level)
+    #         loop_mon.set_str_and_armor(monster.strength,monster.armor,monster.max_hp)
+    #         monster_list.append(loop_mon)
+    #         print(monster_list)
+    # rand_mons = randint(0, len(monster_list))
+    # print(str(rand_mons)+'<-----------Rand_mons')
 
 # name, max_hp, xp_val, money, armor, strength, level
 
@@ -153,3 +192,8 @@ def compile_hero_record(record):
 def compile_monster_record(record):
     small_list = [record.name, record.level, record.max_hp, record.strength, record.armor, record.xp_value, record.money]
     return small_list
+
+# show_all_monsters()
+grognak = Hero('Grognak')
+grognak.gain_xp(201)
+random_monster_encounter(grognak)

@@ -7,7 +7,8 @@ from character.Monster import *
 from random import shuffle
 from character.Hero import *
 from game.displays import *
-import random.randint
+from database.peewee_model import Monster_Model
+from random import randint
 from game.Combat import Combat
 
 
@@ -23,16 +24,14 @@ def did_random_rest_encounter_occur(hero):
 
 def random_monster_encounter(hero):
     print('Placeholder Print from random_monster_encounter method')
-    monster_list = []
-    # figure out the levels the monsters can be, not too low or too high
+    # figure out the levels the monster can be, not too low or too high
     random_level = randint(hero.level - 1, hero.level + 2)
     # grab a monster, send it back for fighting
-    monsters = fetch_monster_make_object(random_level)
-    for monster in monsters:
-        monster_list.append(monster)
-    return a_monster
+    monster = fetch_monster_make_object(random_level)
+
+
 
 # def set_up_battle
-
-
-
+grognak = Hero('Grognak')
+grognak.gain_xp(201)
+random_monster_encounter(grognak)
