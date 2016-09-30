@@ -60,22 +60,28 @@ def fetch_monster_make_object(level):
     '''THE ONLY REAL FIX FOR THIS IS TO DO MULTITHREADING APPARENTLY
         SINCE I PUT IN THE PAUSES IT IS FAR MORE LIKELY TO SUCCEED THAN NOT.  BUT IT STILL CRASHES SOMETIMES'''
     # TODO: Make this Multithreaded for true success
+    error = True
     if level <= 0:
         level = 1
     list_o = []
-    for monster in Monster_Model.select():
-        print('Made it into the loop1')
-        if monster.level == level:
-            print('made it inot the loop')
-            loop_mon = Monster(monster.name,monster.xp_value,monster.money,monster.level)
-            loop_mon.set_str_and_armor(monster.strength, monster.armor, monster.max_hp)
-            sleep(0.1)
-            list_o.append(loop_mon)
-    sleep(1)
+    while error:
+        try:
+            for monster in Monster_Model.select():
+                print('Made it into the loop1')
+                if monster.level == level:
+                    print('made it inot the loop')
+                    loop_mon = Monster(monster.name,monster.xp_value,monster.money,monster.level)
+                    loop_mon.set_str_and_armor(monster.strength, monster.armor, monster.max_hp)
+                    sleep(0.1)
+                    list_o.append(loop_mon)
+            sleep(1)
 
-    rand_mons = randint(0, len(list_o))
-    final_mons = list_o[rand_mons]
-    return final_mons
+            rand_mons = randint(0, len(list_o))
+            final_mons = list_o[rand_mons]
+            error = False
+            return final_mons
+        except IndexError:
+            print('Test Index Error')
 
 # def fetch_monster_make_object(level):
     '''FOR SOME REASON THIS METHOD CONSTANTLY RETURNED NOTHING, WHEN I REWROTE IT ABOVE IT WORKED.'''
