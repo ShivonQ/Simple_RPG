@@ -18,24 +18,41 @@ class Combat:
     def battle_time(self):
         list_of_participants = [self.hero, self.monster]
         shuffle(list_of_participants)
-        for participant in list_of_participants:
-            self.take_a_turn(participant)
+        while self.hero.current_hp>=1 or self.monster.current_hp>=1:
+            round_counter = 0
+            # for each person in combat, let them take their turn
+            for participant in list_of_participants:
+                # This variable is for implementatino of potions
+                round_counter += 1
+                self.take_a_turn(participant)
     #     one of them will go first, fortunatly they both have the same attack and damage methods
 
 
     def take_a_turn(self,participant):
+        # is it the monsters turn or the players turn?
         if isinstance(participant, Hero):
             print('HERO TURN METHOD CALLED')
+            self.hero_turn()
         elif isinstance(participant, Monster):
             print('MONSTER TURN METHOD')
 
     def hero_turn(self):
-
         while True:
             display_fight_menu()
             try:
                 choice = int(input('{} is going to :').format(self.hero.name))
-                break
+                if choice == 1:
+                    print('Begin fight mode')
+                    self.hero.attack_enemy(self.monster)
+                    break
+                if choice == 2:
+                    print('Potion Drinking Menu')
+                    # TODO: Fred's Potion Drinking
+                    break
+                if choice == 3:
+                    print('RUN AWAYYY RUN AWAYYYY')
+
+                    break
             except ValueError:
                 print('{} is baffled by your choice, and looks beseechingly towards the sky for guidance.'.format(
                     self.hero.name))
