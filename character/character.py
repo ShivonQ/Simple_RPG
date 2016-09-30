@@ -8,7 +8,8 @@ class Character:
         self.armor = 0 # This is the base armor rating
     # #     Damage vs Armor, if damage <= armor 'You Missed'
     #     self.money = 0
-        self.hp = 1
+        self.current_hp = 1
+        self.max_hp = 1
 
     def attack_enemy(self, enemy):
         damage_amount = randint(1, self.strength)
@@ -20,4 +21,10 @@ class Character:
 
     def take_damage(self, damage_dealt):
         # This takes into account any armor that caused a miss
-        self.hp -= damage_dealt
+        self.current_hp -= damage_dealt
+
+
+    def am_I_dead(self):
+        if self.current_hp <= 0:
+            print('{} has died from their wounds.'.format(self.name))
+

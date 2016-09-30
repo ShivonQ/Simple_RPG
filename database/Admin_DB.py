@@ -14,7 +14,7 @@ def make_default_admin():
         new_admin = Admin_User(u,pw)
         new_admin.save()
     except IntegrityError:
-        print('         ')
+        print('\t\t    ? \t\t    ')
 
 
 def admin_db():
@@ -34,7 +34,7 @@ def admin_db():
         elif choice == 4:
             create_admin_loop()
         elif choice == 5:
-            sys.exit()
+            break
         else:
             print('That was not an option.')
 
@@ -46,7 +46,7 @@ def login_loop():
         admin_displays.display_admin_login()
         u_name = input('Please enter your username.\n')
         pw = input('Please enter your password\n')
-        valid_or_not = db.check_for_admin_priveleges(u_name,pw)
+        valid_or_not = check_for_admin_priveleges(u_name,pw)
     admin_db()
 
 
@@ -73,7 +73,7 @@ def insert_monster_loop():
             print('Sorry, that wasn\'t a Integer.')
     while True:
         try:
-            armor = int(input('What is the monsters Strength? Minimum of 0.'))
+            armor = int(input('What is the monsters Armor? Minimum of 0.'))
             if armor<0:
                 print(' That was an invalid number, positive numbers only.')
             else:
@@ -91,7 +91,7 @@ def insert_monster_loop():
             print('That is not an integer.')
     while True:
         try:
-            money = int(input('Ho much Money does the monster have? Minimum of 0.'))
+            money = int(input('How much Money does the monster have? Minimum of 0.'))
             if money < 0:
                 print(' That was an invalid number, positive numbers only.')
             else:
@@ -108,7 +108,8 @@ def insert_monster_loop():
         except ValueError:
             print('Sorry that was not an Integer.')
     # Now that all that data has been collected we toss it into the Peewee model, and send it to the DB
-    new_monster = Monster(name,max_hp,xp_val,money,armor,strength,level)
+    new_monster = Monster(name,xp_val,money,level)
+    new_monster.set_str_and_armor(strength, armor, max_hp)
     add_monster(new_monster)
 
 
@@ -174,6 +175,3 @@ def delete_admin_loop():
           '-----DANGEROUS TERRITORY-----\n'
           '----DONT DELETE YOURSELF!----')
 #     TODO: Figure out a way to make sure that there is always one admin before we implement this.
-
-
-login_loop()
