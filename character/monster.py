@@ -11,8 +11,12 @@ class Monster(Character):
         self.money = money
         self.level = level
 
-
-    def set_str_and_armor(self, str, arm,max_hp):
-        self.strength = str
+    def set_str_and_armor(self, strength, arm, max_hp):
+        self.strength = strength
         self.armor = arm
         self.max_hp = max_hp
+        self.current_hp = max_hp
+
+
+
+

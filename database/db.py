@@ -97,7 +97,7 @@ def add_admin_user(user_object):
 
 def check_for_admin_priveleges(username, password):
     try:
-        admin = Admin_User.get(Admin_User.startswith(username))
+        admin = Admin_User.get(Admin_User.username.startswith(username))
         if admin.password == password:
             display_successful_login()
             return True
