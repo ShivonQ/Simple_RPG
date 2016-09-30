@@ -18,13 +18,20 @@ class Combat:
     def battle_time(self):
         list_of_participants = [self.hero, self.monster]
         shuffle(list_of_participants)
-        while self.hero.current_hp>=1 or self.monster.current_hp>=1:
+        while self.hero.current_hp >= 1 or self.monster.current_hp >= 1:
             round_counter = 0
             # for each person in combat, let them take their turn
             for participant in list_of_participants:
                 # This variable is for implementatino of potions
                 round_counter += 1
                 self.take_a_turn(participant)
+        if self.hero.current_hp <= 0:
+            print('You have died.')
+            '''This part here will be where the hall of fame stuff happens.  To be figured out later.
+            My need to add 'state' to the DB in order to track who has died and who hasnt.'''
+        if self.monster.current_hp <= 0:
+            self.hero.gain_xp(self.monster.xp_val)
+            self.hero.money += self.monster.money
     #     one of them will go first, fortunatly they both have the same attack and damage methods
 
 
