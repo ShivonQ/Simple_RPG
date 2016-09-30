@@ -12,22 +12,25 @@ import sqlite3
 db = SqliteDatabase('simple_rpg.db')
 
 
-def did_random_rest_encounter_occur(hero):
+def did_random_rest_encounter_occur():
     chance = randint(1, 100)
     chance_range = (1,13,37,57,68)
     if chance in chance_range:
-        print('A wild Monster attacked while you rest!')
-#         TODO: Call monster encounter method
+        return True
+#         TODO: Ditch the magic numbers for something else.
     else:
         print('You sleep peacefully.')
+        return False
 
 
 def random_monster_encounter(hero):
-    print('Placeholder Print from random_monster_encounter method')
     # figure out the levels the monster can be, not too low or too high
     random_level = randint(hero.level - 1, hero.level + 2)
     # grab a monster, send it back for fighting
     monster = fetch_monster_make_object(random_level)
+    # return that monster so the Encounters File can use them
+    return monster
+
 
 # and adds or modifies them.
 def add_monster(monster_object):
@@ -82,25 +85,6 @@ def fetch_monster_make_object(level):
             return final_mons
         except IndexError:
             print('Test Index Error')
-
-# def fetch_monster_make_object(level):
-    '''FOR SOME REASON THIS METHOD CONSTANTLY RETURNED NOTHING, WHEN I REWROTE IT ABOVE IT WORKED.'''
-    # # Make sure this returns all monsters that meet the criteria
-    # monster_list = []
-    # if level == 0:
-    #     level += 1
-    # print(str(level)+'<----------level')
-    # # Dig up monsters that fit the bill
-    # for monster in Monster_Model:
-    #     if monster.level == level:
-    #         loop_mon = Monster(monster.name,monster.xp_value,monster.money,monster.level)
-    #         loop_mon.set_str_and_armor(monster.strength,monster.armor,monster.max_hp)
-    #         monster_list.append(loop_mon)
-    #         print(monster_list)
-    # rand_mons = randint(0, len(monster_list))
-    # print(str(rand_mons)+'<-----------Rand_mons')
-
-# name, max_hp, xp_val, money, armor, strength, level
 
 
 def fetch_hero_make_object(name):
@@ -200,6 +184,3 @@ def compile_monster_record(record):
     return small_list
 
 # show_all_monsters()
-grognak = Hero('Grognak')
-grognak.gain_xp(201)
-random_monster_encounter(grognak)

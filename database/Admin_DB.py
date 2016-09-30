@@ -34,7 +34,7 @@ def admin_db():
         elif choice == 4:
             create_admin_loop()
         elif choice == 5:
-            sys.exit()
+            break
         else:
             print('That was not an option.')
 
@@ -175,6 +175,3 @@ def delete_admin_loop():
           '-----DANGEROUS TERRITORY-----\n'
           '----DONT DELETE YOURSELF!----')
 #     TODO: Figure out a way to make sure that there is always one admin before we implement this.
-
-
-login_loop()
