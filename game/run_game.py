@@ -12,6 +12,7 @@ import sys
 
 def run_program():
     print('The game is running theoretically.')
+    root_loop()
 # Find a better place for this DB enabling stuff
 # db.connect()
 # db.create_tables([Hero_Model,Monster_Model,Admin_User], safe=True)
@@ -38,6 +39,7 @@ def root_menu_methods(choice):
     if choice == 1:
         print('| Make a new Hero and begin.')
         our_hero = new_hero_creation()
+        run_game(our_hero)
     if choice == 2:
         print('Call open saved hero method!')
     if choice == 3:
@@ -105,6 +107,7 @@ def new_hero_creation():
     new_hero = Hero(name)
     # Modify that Hero!
     new_hero.set_starter_stats()
+    return new_hero
 
 
 run_program()
