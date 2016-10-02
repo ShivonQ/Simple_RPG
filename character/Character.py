@@ -17,12 +17,12 @@ class Character:
             print('The attack is evaded!')
         else:
             damage_amount = damage_amount-enemy.armor
+            # TODO: Print damage amount dealt
             enemy.take_damage(damage_amount)
 
     def take_damage(self, damage_dealt):
         # This takes into account any armor that caused a miss
         self.current_hp -= damage_dealt
-
 
     def am_I_dead(self):
         if self.current_hp <= 0:

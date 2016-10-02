@@ -70,9 +70,9 @@ def fetch_monster_make_object(level):
     while error:
         try:
             for monster in Monster_Model.select():
-                print('Made it into the loop1')
+                # print('Made it into the loop1')
                 if monster.level == level:
-                    print('made it inot the loop')
+                    # print('made it inot the loop')
                     loop_mon = Monster(monster.name,monster.xp_value,monster.money,monster.level)
                     loop_mon.set_str_and_armor(monster.strength, monster.armor, monster.max_hp)
                     sleep(0.1)
@@ -89,19 +89,22 @@ def fetch_monster_make_object(level):
 
 def fetch_hero_make_object(name):
     # get the save data
-    this_hero = Hero_Model.get(Hero_Model.name.startswith(name))
-    # initialize the object
-    hero_object = Hero(name)
-    # call the set_opened_save function
-    hero_object.set_opened_save_stats(this_hero.current_hp,
-                                      this_hero.max_hp,
-                                      this_hero.armor,
-                                      this_hero.strength,
-                                      this_hero.xp,
-                                      this_hero.level,
-                                      this_hero.money,
-                                      this_hero.next_level)
-    return hero_object
+    try:
+        this_hero = Hero_Model.get(Hero_Model.name.startswith(name))
+        # initialize the object
+        hero_object = Hero(name)
+        # call the set_opened_save function
+        hero_object.set_opened_save_stats(this_hero.current_hp,
+                                          this_hero.max_hp,
+                                          this_hero.armor,
+                                          this_hero.strength,
+                                          this_hero.xp,
+                                          this_hero.level,
+                                          this_hero.money,
+                                          this_hero.next_level)
+        return hero_object
+    except DoesNotExist:
+        return False
 
 
 def check_if_hero_exists(hero_object):

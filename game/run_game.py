@@ -22,7 +22,7 @@ def root_loop():
         display_root_menu()
         # '|      1) New Game     2) Open Saved Game     3) Enter Admin Section           |'
         try:
-            user_choice = int(input('|    What would you like to do brave warrior?                                  |\n'))
+            user_choice = int(input('|    What would you like to do brave warrior?                                  |'))
             if user_choice in (1,2,3):
                 root_menu_methods(user_choice)
             if user_choice == 4:
@@ -31,23 +31,31 @@ def root_loop():
                 pass
         except ValueError:
             print('| Before we can begin you need to actually select one of these options!        |\n'
-                  ' ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯')
+                  ' ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯ ')
 #                  |    What would you like to do brave warrior?                                  |
 
 
 def root_menu_methods(choice):
     if choice == 1:
-        print('| Make a new Hero and begin.')
+        print('| Make a new Hero and begin.                                                   |')
         our_hero = new_hero_creation()
         run_game(our_hero)
+
     if choice == 2:
-        print('Call open saved hero method!')
+        # If the user has a hero already, check for it, then open that game
+        hero_name = input('|                  What is your hero known as in this realm?                   |')
+        saved_hero = fetch_hero_make_object(hero_name)
+        if saved_hero!=False:
+            run_game(saved_hero)
+        else:
+            print('|                     That hero is not in this realm.                          |')
+
     if choice == 3:
         login_loop()
 
 
 def run_game(hero):
-    print('Welcome brave {} to the real world, you gaze upon it ready to take your place in legend.'.format(hero.name))
+    print('| Welcome brave {} to the real world, you gaze upon \n| it ready to take your place in legend.'.format(hero.name))
     display_base_hero_options()
     #                  '|      1) New Game     2) Open Saved Game     3) Enter Admin Section           |'
     while True:
@@ -58,17 +66,18 @@ def run_game(hero):
             else:
                 pass
         except ValueError:
-            print('{} points at a random object nearby, looks up into the sky then shrugs.'.format(hero.name))
+            print('|{} points at a random object nearby, looks up into the sky then shrugs.'.format(hero.name))
 
 
 def base_hero_options_loop(hero, choice):
     if choice == 1:
         # This option in the future will be availiable, but you won't always be able to find a merchant.
-        print('You search and Search for a merchant but do not find one!')
+        #     '| Before we can begin you need to actually select one of these options!        |\n'
+        print('| You search and Search for a merchant but do not find one!                    |')
     if choice == 2:
         #         This option will let the user drink one of their potions.
         # in the next version any combat potioins will check to see if the users state == 'combat'
-        print('{} doesn\'t have any potions. They have\'t even heard of potions before now.'.format(hero.name))
+        print('| {} doesn\'t have any potions. They have\'t even heard of potions before now.'.format(hero.name))
     if choice == 3:
         rest_option(hero)
     if choice == 4:
@@ -88,6 +97,7 @@ def base_hero_options_loop(hero, choice):
 def combat_sequence(hero):
     monster = random_monster_encounter(hero)
     reg_combat = Combat(hero, monster)
+    reg_combat.battle_time()
 
 
 def rest_option(hero):
@@ -96,6 +106,7 @@ def rest_option(hero):
     if rest_enc:
         monster = random_monster_encounter(hero)
         rest_combat = Combat(hero, monster)
+        rest_combat.battle_time()
     else:
         hero.gain_hp_from_rest(True)
 

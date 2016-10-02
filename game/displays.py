@@ -4,7 +4,7 @@ def display_base_hero_options():
 
 
 def display_fight_menu():
-    print('|    1) Attack    2) Drink Potion    3) Flee the Battle                        |')
+    print('|   1) Attack   2) Drink Potion   3) Check Hero Status    4) Flee the Battle   |')
 
 
 def display_merchant_menu():

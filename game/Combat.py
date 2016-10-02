@@ -53,7 +53,7 @@ class Combat:
         while True:
             display_fight_menu()
             try:
-                choice = int(input('{} is going to :').format(self.hero.name))
+                choice = int(input('| {} is going to :').format(self.hero.name))
                 if choice == 1:
                     print('Begin fight mode')
                     self.hero.attack_enemy(self.monster)
@@ -63,10 +63,13 @@ class Combat:
                     # TODO: Fred's Potion Drinking
                     break
                 if choice == 3:
-                    print('RUN AWAYYY RUN AWAYYYY')
+                    self.hero.status()
 
+                if choice == 4:
+                    print('RUN AWAYYY')
+                    # This is where threading could be useful.  Send message to a other thread telling it the player has fled
                     break
-            except ValueError:
+            except ValueError or choice not in range(4):
                 print('{} is baffled by your choice, and looks beseechingly towards the sky for guidance.'.format(
                     self.hero.name))
 
