@@ -104,6 +104,14 @@ def fetch_hero_make_object(name):
     return hero_object
 
 
+def check_if_hero_exists(hero_object):
+    try:
+        this_hero = Hero_Model.get(Hero_Model.name.startswith(hero_object.name))
+        return True
+    except DoesNotExist:
+        return False
+
+
 def modify_hero_save(hero_object):
     # This will overwrite anything in the old file with the new info
     this_hero = Hero_Model.get(Hero_Model.name.startswith(hero_object.name))

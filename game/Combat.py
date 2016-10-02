@@ -27,7 +27,7 @@ class Combat:
                 self.take_a_turn(participant)
         #         if you are dead... exit combat after calling a HighScoreSave() method
         if self.hero.current_hp <= 0:
-            print('You have died.')
+            print('{} has died. The {} picks over the corpse.'.format(self.hero.name,self.monster.name))
             '''This part here will be where the hall of fame stuff happens.  To be figured out later.
             My need to add 'state' to the DB in order to track who has died and who hasnt.'''
         #     If the monster is dead, get that cash and xp
@@ -39,11 +39,15 @@ class Combat:
 
     def take_a_turn(self,participant):
         # is it the monsters turn or the players turn?
-        if isinstance(participant, Hero):
-            print('HERO TURN METHOD CALLED')
-            self.hero_turn()
-        elif isinstance(participant, Monster):
-            print('MONSTER TURN METHOD')
+        # check if they are dead
+        if participant.current_hp <= 0:
+            pass
+        else:
+            if isinstance(participant, Hero):
+                print('HERO TURN METHOD CALLED')
+                self.hero_turn()
+            elif isinstance(participant, Monster):
+                print('MONSTER TURN METHOD')
 
     def hero_turn(self):
         while True:

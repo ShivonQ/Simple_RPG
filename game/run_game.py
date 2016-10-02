@@ -5,6 +5,7 @@ from sqlite3 import *
 import peewee
 from database.db import db
 from game.displays import *
+from game.Combat import Combat
 import sys
 
 #   print('|    1) Drink a Potion Before Bed          2) Go to Bed                        |')
@@ -65,16 +66,36 @@ def base_hero_options_loop(hero, choice):
     if choice == 2:
         #         This option will let the user drink one of their potions.
         # in the next version any combat potioins will check to see if the users state == 'combat'
-        print('You don\'t have any potions. You have\'t even heard of potions before now.' )
+        print('{} doesn\'t have any potions. They have\'t even heard of potions before now.'.format(hero.name))
     if choice == 3:
-        #         Rest the night
-        rest_enc = did_random_rest_encounter_occur()
-        if rest_enc:
-            monster = random_monster_encounter(hero)
-
+        rest_option(hero)
+    if choice == 4:
+        # Add in the location generator here later
+        #         Normal Combat Occurrs Here
+        combat_sequence(hero)
+    if choice == 5:
+        exists = check_if_hero_exists(hero)
+        if exists:
+            modify_hero_save(hero)
+            sys.exit()
         else:
-            hero.gain_hp_from_rest(True)
+            create_hero_save(hero)
+            sys.exit()
 
+
+def combat_sequence(hero):
+    monster = random_monster_encounter(hero)
+    reg_combat = Combat(hero, monster)
+
+
+def rest_option(hero):
+    #         Rest the night
+    rest_enc = did_random_rest_encounter_occur()
+    if rest_enc:
+        monster = random_monster_encounter(hero)
+        rest_combat = Combat(hero, monster)
+    else:
+        hero.gain_hp_from_rest(True)
 
 
 def new_hero_creation():
