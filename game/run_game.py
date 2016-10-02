@@ -72,6 +72,9 @@ def base_hero_options_loop(hero, choice):
         if rest_enc:
             monster = random_monster_encounter(hero)
 
+        else:
+            hero.gain_hp_from_rest(True)
+
 
 
 def new_hero_creation():
