@@ -184,6 +184,8 @@ def show_all_monsters():
     else:
         return True
 
+#start of the merchant block
+
 def add_merchant(merchant_object):
     print('Adding a Merchant')
     new_merchant = Merchant_Model.create(name=merchant_object.name,
