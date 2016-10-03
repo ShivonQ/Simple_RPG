@@ -3,6 +3,7 @@ from tabulate import tabulate
 from database.peewee_model import *
 from database.admin_displays import *
 from character.Monster import Monster
+from character.Merchant import Merchant
 from random import randint
 from character.Hero import Hero
 from time import sleep
@@ -14,12 +15,22 @@ db = SqliteDatabase('./game/simple_rpg.db')
 
 def did_random_rest_encounter_occur():
     chance = randint(1, 100)
-    chance_range = (1,13,37,57,68)
-    if chance in chance_range:
-        return True
-#         TODO: Ditch the magic numbers for something else.
+    chance_range = (10)
+    if chance <= chance_range:
+        print('A random encounter happens while you were sleeping')
+        encounter_chance = randint (1,100)
+        monster_chance = (50)
+        if encounter_chance <= monster_chance:
+            print('You are attacked by a monster while you were trying to sleep!')
+            random_monster_encounter()
+            return True
+        else:
+            print('A wandering merchant approaches your camp')
+            return True
+
     else:
         print('You sleep peacefully.')
+        Hero.gain_hp_from_rest()
         return False
 
 
@@ -70,9 +81,9 @@ def fetch_monster_make_object(level):
     while error:
         try:
             for monster in Monster_Model.select():
-                # print('Made it into the loop1')
+                print('Made it into the loop1')
                 if monster.level == level:
-                    # print('made it inot the loop')
+                    print('made it into the loop')
                     loop_mon = Monster(monster.name,monster.xp_value,monster.money,monster.level)
                     loop_mon.set_str_and_armor(monster.strength, monster.armor, monster.max_hp)
                     sleep(0.1)
@@ -89,30 +100,19 @@ def fetch_monster_make_object(level):
 
 def fetch_hero_make_object(name):
     # get the save data
-    try:
-        this_hero = Hero_Model.get(Hero_Model.name.startswith(name))
-        # initialize the object
-        hero_object = Hero(name)
-        # call the set_opened_save function
-        hero_object.set_opened_save_stats(this_hero.current_hp,
-                                          this_hero.max_hp,
-                                          this_hero.armor,
-                                          this_hero.strength,
-                                          this_hero.xp,
-                                          this_hero.level,
-                                          this_hero.money,
-                                          this_hero.next_level)
-        return hero_object
-    except DoesNotExist:
-        return False
-
-
-def check_if_hero_exists(hero_object):
-    try:
-        this_hero = Hero_Model.get(Hero_Model.name.startswith(hero_object.name))
-        return True
-    except DoesNotExist:
-        return False
+    this_hero = Hero_Model.get(Hero_Model.name.startswith(name))
+    # initialize the object
+    hero_object = Hero(name)
+    # call the set_opened_save function
+    hero_object.set_opened_save_stats(this_hero.current_hp,
+                                      this_hero.max_hp,
+                                      this_hero.armor,
+                                      this_hero.strength,
+                                      this_hero.xp,
+                                      this_hero.level,
+                                      this_hero.money,
+                                      this_hero.next_level)
+    return hero_object
 
 
 def modify_hero_save(hero_object):
@@ -184,6 +184,44 @@ def show_all_monsters():
     else:
         return True
 
+#start of the merchant block
+
+def add_merchant(merchant_object):
+    print('Adding a Merchant')
+    new_merchant = Merchant_Model.create(name=merchant_object.name,
+                                                    max_hp=merchant_object.max_hp,
+                                                    money=merchant_object.money,
+                                                    armor=merchant_object.armor,
+                                                    inventory=merchant_object.inventory
+                                                    )
+    new_merchant.save()
+
+def fetch_merchant_make_object(name):
+
+    this_merchant = Merchant_Model.get(Merchant_Model.name)
+    Merchant_object = Merchant(name)
+
+    Merchant_object.set(this_merchant.max_hp,
+                                      this_merchant.armor,
+                                      this_merchant.money,
+                                      this_merchant.inventory)
+    return Merchant_object
+
+def show_all_merchants():
+    big_list = []
+    for merchant in Merchant_Model:
+        small = compile_merchant_record(Merchant)
+        big_list.append(small)
+    print(tabulate(big_list, headers=['Name', 'Max HP', 'Armor', 'Money', 'Inventory'],
+                   tablefmt='pipe'))
+    if len(big_list)<1:
+        return False
+    else:
+        return True
+
+def compile_merchant_record(record):
+    small_list = [record.name, record.max_hp, record.armor, record.money, record.inventory]
+    return small_list
 
 def compile_hero_record(record):
     small_list = [record.name,record.level, record.xp, record.next_level, record.money]

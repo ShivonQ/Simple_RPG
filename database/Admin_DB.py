@@ -3,6 +3,7 @@ from database.db import *
 import sys
 from sqlite3 import IntegrityError
 from character.Monster import *
+from character.Merchant import *
 from database.peewee_model import *
 from database.Admin_User import *
 
@@ -159,6 +160,68 @@ def delete_hero_loop():
                 else:
                     print('The delete was aborted.')
                     break
+
+def insert_merchant_loop():
+    print('Here we insert a merchant')
+    name = input('Give the merchant a name')
+    while True:
+        try:
+            max_hp = int(input('What is the merchants maximum HP?'))
+            if max_hp<1:
+                print('Value has to be greater than 0')
+            else:
+                break
+        except ValueError:
+            print('It has to be an Integer value.')
+    while True:
+        try:
+            armor = int(input('What is the merchants Armor? Minimum of 0.'))
+            if armor<0:
+                print(' Invalid value, it has to be 0 or greater.')
+            else:
+                break
+        except ValueError:
+            print('Armor value has to be an integer.')
+    while True:
+        try:
+            money = int(input('How much Money does the merchant have? Minimum of 500.'))
+            if money < 500:
+                print(' Remember, the value has to be 500 minimum.')
+            else:
+                break
+        except ValueError:
+            print('Money value has to be an integer.')
+    while True:
+        try:
+            #probably it needs to be expanded to add more than two items
+            inventory = inventory.add_item(input('What is the merchant carrying?'))
+            y_o_n = input('Do you want to add another item?')
+            if y_o_n.lower() == 'y' or y_o_n.lower == 'yes':
+                inventory = inventory.add_item(input('What is the merchant carrying?'))
+        except ValueError:
+            print('We got an error')
+    new_merchant = Merchant(name,money)
+    new_merchant.set_armor_max_hp(armor, max_hp)
+    add_merchant(new_merchant)
+
+
+def delete_merchant_loop():
+    print('Here we Delete a merchant')
+    delete_loop = True
+    while delete_loop:
+        show_all_merchants()
+        to_delete = input('Which merchant do you want to delete? Enter the name of the merchant.')
+        while True:
+            y_o_n = input('You are trying to delete {}, is that the record you mean to delete?'.format(to_delete))
+            if y_o_n.lower() == 'y' or y_o_n.lower == 'yes':
+                this_record = Merchant_Model.get(Merchant_Model.name.startswith(to_delete))
+                this_record.delete_instance()
+                delete_loop = False
+                break
+            else:
+                print('Couldnt perform the delete operation.')
+                break
+
 
 
 def create_admin_loop():
