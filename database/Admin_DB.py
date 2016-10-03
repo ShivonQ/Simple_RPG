@@ -163,7 +163,7 @@ def delete_hero_loop():
 
 def insert_merchant_loop():
     print('Here we insert a merchant')
-    name = input('Give the wandering merchant a name')
+    name = input('Give the merchant a name')
     while True:
         try:
             max_hp = int(input('What is the merchants maximum HP?'))
