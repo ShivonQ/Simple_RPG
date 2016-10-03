@@ -20,7 +20,6 @@ class Character:
             damage_amount = damage_amount-enemy.armor
             #     '|   1) Attack   2) Drink Potion   3) Check Hero Status    4) Flee the Battle   |'
             print('|                     {} hits for {} damage!                  |'.format(self.name, damage_amount))
-            # TODO: Print damage amount dealt
             enemy.take_damage(damage_amount)
 
     def take_damage(self, damage_dealt):

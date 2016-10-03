@@ -2,9 +2,9 @@
 
 
 class Inventory():
-    def __init__(self):
+    def __init__(self, owner):
         self.inventory = {}
-
+        self.owner = owner
     def add_item(self, item):
         self.inventory[item.name] = item
 

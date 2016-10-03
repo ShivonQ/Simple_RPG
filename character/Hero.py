@@ -28,6 +28,7 @@ class Hero(Character):
         self.armor = 1
         self.strength = 3
         self.max_hp = 10
+        self.current_hp = 10
 
     def set_opened_save_stats(self,hp,max_hp,armor,strength,xp,level,money,next_level):
         self.current_hp = hp

@@ -55,9 +55,10 @@ def root_menu_methods(choice):
 
 
 def run_game(hero):
-    print('| Welcome brave {} to the real world, you gaze upon \n| it ready to take your place in legend.'.format(hero.name))
+    print('|         Welcome brave {} to the real world, you gaze upon \n'
+          '|             it ready to take your place in legend.                           |'.format(hero.name))
     display_base_hero_options()
-    #                  '|      1) New Game     2) Open Saved Game     3) Enter Admin Section           |'
+    #     '|      1) New Game     2) Open Saved Game     3) Enter Admin Section           |'
     while True:
         try:
             choice = int(input('|                          What is your choice Hero?                           |'))
