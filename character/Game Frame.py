@@ -1,120 +1,140 @@
-from battle_result import NumGen
-from tkinter import *
-import tkinter as tk
-import sqlite3
-import random
+from tkinter import Tk, Label, Button, W, E, S, N, StringVar, PhotoImage, Entry
+# from game import Combat, displays, Encounters, Location_Generator, run_game
+# from database import Admin_User, admin_displays , data_validator, db, peewee_model, Admin_DB
+from character.Hero import Hero
+from character.Monster import Monster
+from character.Item import Item
+from character.Inventory import Inventory
+# from character.Merchant import Merchant
+from random import randint
+
 import math
 
 
-class GameDesign(Frame):
-    def __init__(self):
-        Frame.__init__(self)
-        self.master.title("GameDesign")
-        self.grid()
+class GUI:
+    def __init__(self, master):
+        self.master = master
+        master.title("Simple RPG")
 
-        self._heroLabel = Label(self, text="Hero")
-        self._heroLabel.grid(row=0, column=0)
-        self._heroStr = StringVar()
-        self._heroEntry = Entry(self,
-                                textvariable=self._heroStr)
-        self._heroEntry.grid(row=0, column=1)
+        # labels for charaters and items
+        self.Hero = Label(master, text="Warrior")
+        self.Hero.grid(column=0, row=1)
+        self.HeroStr = StringVar()
+        self.HeroEntry = Entry(master,
+                               textvariable=self.HeroStr)
+        self.HeroEntry.grid(column=1, row=1)
 
-        self._armorLabel = Label(self, text="armor")
-        self._armorLabel.grid(row=2, column=0)
-        self._armorStr = StringVar()
-        self._armorEntry = Entry(self,
-                                 textvariable=self._armorStr)
-        self._armorEntry.grid(row=2, column=1)
+        self.HeroHp = Label(master, text="Warrior HP")
+        self.HeroHp.grid(column=0, row=2)
 
-        self._strLabel = Label(self, text="Str")
-        self._strLabel.grid(row=1, column=0)
-        self._strStr = StringVar()
-        self._strEntry = Entry(self,
-                               textvariable=self._strStr)
-        self._strEntry.grid(row=1, column=1)
+        self.armor = Label(master, text="Armor")
+        self.armor.grid(column=0, row=3)
+        self.armorStr = StringVar()
+        self.armorEntry = Entry(master,
+                                textvariable=self.armorStr)
+        self.armorEntry.grid(column=1, row=4)
 
-        self._monsterLabel = Label(self, text="Monster")
-        self._monsterLabel.grid(row=0, column=2)
-        self._monsterStr = StringVar()
-        self._monsterEntry = Entry(self,
-                                   textvariable=self._monsterStr)
-        self._monsterEntry.grid(row=0, column=3)
+        self.strenght = Label(master, text="Str")
+        self.strenght.grid(column=0, row=4)
+        self.strenghtStr = StringVar()
+        self.strenghtEntry = Entry(master,
+                                   textvariable=self.strenghtStr)
+        self.strenghtEntry.grid(column=1, row=3)
 
-        self._monsterHpLabel = Label(self, text="Monster Hp")
-        self._monsterHpLabel.grid(row=1, column=2)
-        self._monsterHpStr = StringVar()
-        self._monsterHpEntry = Entry(self,
-                                     textvariable=self._monsterHpStr)
-        self._monsterHpEntry.grid(row=1, column=3)
+        self.Monster = Label(master, text="Monster")
+        self.Monster.grid(column=4, row=1)
 
-        self._locationLabel = Label(self, text="Battle Location")
-        self._locationLabel.grid(row=2, column=2)
-        self._locationStr = StringVar()
-        self._locationEntry = Entry(self,
-                                    textvariable=self._locationStr)
-        self._locationEntry.grid(row=2, column=3)
+        self.MonsterHp = Label(master, text="Monster Hp")
+        self.MonsterHp.grid(column=4, row=2)
 
-        self._moneyLabel = Label(self, text="Money")
-        self._moneyLabel.grid(row=0, column=4)
-        self._moneyStr = StringVar()
-        self._moneyEntry = Entry(self,
-                                 textvariable=self._moneyStr)
-        self._moneyEntry.grid(row=0, column=5)
+        self.locationLabel = Label(master, text="Battle Location")
+        self.locationLabel.grid(column=4, row=4)
+        self.locationStr = StringVar()
+        self.locationEntry = Entry(master,
+                                   textvariable=self.locationStr)
+        self.locationEntry.grid(column=5, row=4)
 
-        '''the button f'''
-        self._button = Button(self, text="Attk", command=self._battle)
-        self._button.grid(row=4, column=0, columnspan=1)
+        self.results = StringVar()
+        self.resultsLabel = Label(self, text="\n", textvariable=self.resultsVar)
+        self.resultsLabel.pack()
 
-        self._button = Button(self, text="Flee", command=self._bpResults)
-        self._button.grid(row=5, column=0, columnspan=1)
+        # dont need the label for flee.
+        # self.run = Label(master, text="Flee")
+        # self.run.grid(columnspan=2, rowspan=4)
 
-        self._button = Button(self, text="Battle button", command=self._bpResults)
-        self._button.grid(row=6, column=0, columnspan=1)
 
-    def _battle(self):
-        hero = int(input("Please enter a number up to 10. "))
-        monster = random.randint(1, 10)
-        """ x and z can both be used below without errors -- testing/learning"""
+        # Command buttons
+        self.attk_button = Button(master, text="Attack", command=self.attk)
+        self.attk_button.grid(column=0, row=6)
 
-        randomNumber = random.randint(1, 50)
-        print("hero attack does", randomNumber, "damg")
-        if hero < monster:
-            hero == ("winner")
-            print("winner")
-        elif hero > monster:
-            hero == ("lose")
-            print("lose")
+        self.Mon_button = Button(master, text="Monster Attack", command=self.Mon)
+        self.Mon_button.grid(column=1, row=6)
+
+        self.run_button = Button(master, text="Flee", command=self.run)
+        self.run_button.grid(column=2, row=6)
+
+        self.close_button = Button(master, text="Close", command=master.quit)
+        self.close_button.grid(column=3, row=6)
+
+        self.bpResults_button = Button(master, text="Bp Result", command=self.bpResults)
+        self.bpResults_button.grid(column=4, row=6)
+
+    def getName(self):
+        return self.HeroEntry
+
+    def getMonster(self):
+        return self.Monster
+
+    def getMonsterHp(self):
+        return self.MonsterHp
+
+    def getarmor(self):
+        return self.armorEntry
+
+    def getStrenght(self):
+        return self.strenght
+
+    def getLocation(self):
+        return self.locationEntry
+
+    def attk(self):
+        print("kill them")
+
+    def Mon(self):
+        print("Uggg")
+
+    def run(self):
+        print("run away")
+
+   # def bpResults(self):
+    #    return self.bpResults()
+
+    def results(self):
+        Hero = self.HeroStr.get()
+        # Hero = set_starter_stats.get()
+        armor = self.armorStr.get()
+        Strenght = self.strenghtStr.get()
+        Monster = self.MonsterStr.get()
+        #MonsterHp = self._monsterHpStr.get()
+        location = self.locationStr.get()
+        results = self.resultsLabel.get()
+
+        if results is None:
+            results = ""
         else:
-            print("you lose")
+            results = ""
 
-        randomNumber = random.randint(1, 50)
-        print("monster attack does", randomNumber, "damg")
-        if monster < hero:
-            monster == ("Winner")
-            print("winner")
-        elif monster > hero:
-            monster == ("lose")
-            print("lose")
-        else:
-            monster == ("monster defeated")
-            print("monster defeated")
+        self.resultsVar.set(results)
 
-    def _bpResults(self):
-        hero = self._heroStr.get()
-        armor = self._armorStr.get()
-        strenght = self._strStr.get()
-        monster = self._monsterStr.get()
-        monsterHp = self._monsterHpStr.get()
-        location = self._locationStr.get()
-        money = self._moneyStr.get()
-
-        self._bpResultsVar.set
-
-        print("Battle", " in the", location, "$", hero, "fought a ", monster)
+        print("Battle", " in the", location, "$", Hero, "fought a ", Monster, armor, Strenght)
 
 
-def main():
-    GameDesign().mainloop()
+'''def main():
+    GUI().mainloop()
 
 
-main()
+main()'''
+
+root = Tk()
+my_game = GUI(root)
+root.mainloop()

@@ -36,11 +36,4 @@ class Hero_Model(Base_Model):
     money = IntegerField(null=False, default=0)
     next_level = IntegerField(null=False, default=100)
 
-#adding for the merchant
-class Merchant_Model(Base_Model):
-    name = CharField(max_length=60, unique=True)
-    max_hp = IntegerField(null=False, default=1)
-    money = IntegerField(null=False, default=500)
-    armor = IntegerField(null=False, default=1)
-    inventory = BlobField(null=False, default=0)
 

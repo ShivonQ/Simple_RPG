@@ -20,6 +20,7 @@ class Hero(Character):
 
     def set_state(self, new_state):
         self.state = new_state
+    #     This will only be used in the next version of the game for state checking so people cant fighrt when theyre at the merchant etc
 
 
 
@@ -63,9 +64,10 @@ class Hero(Character):
     """What about +3 max_hp, +1 Damage (Base), +1 Armor (every 3 levels {if level%3 == 0})"""
 
     def status(self):
-        print('_________HERO_STATUS__________\n'
-              ' HP {}/{}   Level {}   XP {}/{}\n'
-              '______________________________'
+        #     '| Before we can begin you need to actually select one of these options!        |\n'
+        print('|_________________________________HERO_STATUS__________________________________|\n'
+              '                       HP {}/{}   Level {}   XP {}/{}                          \n'
+              '|______________________________________________________________________________|'
               .format(self.hp, self.max_hp, self.level,
                       self.xp, self.next_level))
 
