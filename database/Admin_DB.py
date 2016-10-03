@@ -193,9 +193,11 @@ def insert_merchant_loop():
             print('Money value has to be an integer.')
     while True:
         try:
-            #probably it needs to be expanded to add more than one item
+            #probably it needs to be expanded to add more than two items
             inventory = inventory.add_item(input('What is the merchant carrying?'))
-
+            y_o_n = input('Do you want to add another item?')
+            if y_o_n.lower() == 'y' or y_o_n.lower == 'yes':
+                inventory = inventory.add_item(input('What is the merchant carrying?'))
         except ValueError:
             print('We got an error')
     new_merchant = Merchant(name,money)
