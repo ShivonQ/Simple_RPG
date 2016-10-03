@@ -9,7 +9,7 @@ from time import sleep
 import sqlite3
 # TODO: Add try Excepts to all saves,
 # this is our database handler, it calls on the peewee data models that are set up
-db = SqliteDatabase('simple_rpg.db')
+db = SqliteDatabase('./game/simple_rpg.db')
 
 
 def did_random_rest_encounter_occur():

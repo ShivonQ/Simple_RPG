@@ -30,7 +30,7 @@ class Hero(Character):
         self.max_hp = 10
 
     def set_opened_save_stats(self,hp,max_hp,armor,strength,xp,level,money,next_level):
-        self.hp = hp
+        self.current_hp = hp
         self.max_hp=max_hp
         self.armor = armor
         self.strength = strength
@@ -68,7 +68,7 @@ class Hero(Character):
         print('|_________________________________HERO_STATUS__________________________________|\n'
               '                       HP {}/{}   Level {}   XP {}/{}                          \n'
               '|______________________________________________________________________________|'
-              .format(self.hp, self.max_hp, self.level,
+              .format(self.current_hp, self.max_hp, self.level,
                       self.xp, self.next_level))
 
     def gain_hp_from_rest(self, full_rest):

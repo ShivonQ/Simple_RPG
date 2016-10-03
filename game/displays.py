@@ -1,10 +1,14 @@
 '''These are all 80 characters long'''
 def display_base_hero_options():
-    print('|   1) Find a Merchant 2) Drink a Potion 3) Rest 4) Explore  5) Save/Quit Game |')
+    print('|______________________________________________________________________________|\n'
+          '|   1) Find a Merchant 2) Drink a Potion 3) Rest 4) Explore  5) Save/Quit Game |\n'
+          '|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|')
 
 
 def display_fight_menu():
-    print('|   1) Attack   2) Drink Potion   3) Check Hero Status    4) Flee the Battle   |')
+    print('|______________________________________________________________________________|\n'
+          '|   1) Attack   2) Drink Potion   3) Check Hero Status    4) Flee the Battle   |\n'
+          '|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|')
 
 
 def display_merchant_menu():
@@ -12,12 +16,16 @@ def display_merchant_menu():
 
 
 def display_rest_menu():
-    print('|    1) Drink a Potion Before Bed          2) Go to Bed                        |')
+    print('|______________________________________________________________________________|\n'
+          '|    1) Drink a Potion Before Bed          2) Go to Bed                        |\n'
+          '|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|')
 
 def display_explore_menu():
     # in the future this will allow more location based exploration. like how that Mos Eisley game
     # had a simple console map, and certain areas were too dangerous to go to etc...
-    print('|    1) Continue Exploring     2) Drink a Potion  3)   Camp for the Night      |')
+    print('|______________________________________________________________________________|\n'
+          '|    1) Continue Exploring     2) Drink a Potion    3) Camp for the Night      |\n'
+          '|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|')
 
 
 def display_root_menu():
