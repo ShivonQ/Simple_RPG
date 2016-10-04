@@ -15,7 +15,7 @@ class Character:
         damage_amount = randint(1, self.strength)
         if damage_amount <= enemy.armor:
             #     '|   1) Attack   2) Drink Potion   3) Check Hero Status    4) Flee the Battle   |'
-            print('|                            The attack is evaded!                             |')
+            print('|                            {}\'s attack misses!                          |'.format(self.name))
         else:
             damage_amount = damage_amount-enemy.armor
             #     '|   1) Attack   2) Drink Potion   3) Check Hero Status    4) Flee the Battle   |'

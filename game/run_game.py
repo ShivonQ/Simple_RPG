@@ -3,6 +3,7 @@ from database.Admin_User import Admin
 from database.Admin_DB import *
 from sqlite3 import *
 import peewee
+
 from database.db import db
 from game.displays import *
 from game.Combat import Combat
@@ -57,9 +58,10 @@ def root_menu_methods(choice):
 def run_game(hero):
     print('|         Welcome brave {} to the real world, you gaze upon \n'
           '|             it ready to take your place in legend.                           |'.format(hero.name))
-    display_base_hero_options()
+
     #     '|      1) New Game     2) Open Saved Game     3) Enter Admin Section           |'
     while True:
+        display_base_hero_options()
         try:
             choice = int(input('|                          What is your choice Hero?                           |'))
             if choice in (1, 2, 3, 4, 5):
@@ -103,7 +105,7 @@ def combat_sequence(hero):
 
 def rest_option(hero):
     #         Rest the night
-    rest_enc = did_random_rest_encounter_occur()
+    rest_enc = did_random_rest_encounter_occur(hero)
     if rest_enc:
         monster = random_monster_encounter(hero)
         rest_combat = Combat(hero, monster)

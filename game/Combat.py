@@ -18,6 +18,8 @@ class Combat:
     def battle_time(self):
         list_of_participants = [self.hero, self.monster]
         shuffle(list_of_participants)
+        #     '|   1) Attack   2) Drink Potion   3) Check Hero Status    4) Flee the Battle   |'
+        print('|          You encounter a {} while exploring, it attacks!'.format(self.monster.name))
         # While they both have life, keep battle going
         while self.hero.current_hp >= 1 and self.monster.current_hp >= 1:
             round_counter = 0
@@ -40,7 +42,7 @@ class Combat:
     #     one of them will go first, fortunatly they both have the same attack and damage methods
 
 
-    def take_a_turn(self,participant):
+    def take_a_turn(self, participant):
         # is it the monsters turn or the players turn?
         # check if they are dead
         if participant.current_hp <= 0:
@@ -57,11 +59,12 @@ class Combat:
         while True:
             display_fight_menu()
             try:
-                #                  '|   1) Attack   2) Drink Potion   3) Check Hero Status    4) Flee the Battle   |'
+
                 choice = int(input('| This legendary hero is going to :                                            |'
                                    ).format(self.hero.name))
                 if choice == 1:
-                    print('Begin fight mode')
+                    #     '|   1) Attack   2) Drink Potion   3) Check Hero Status    4) Flee the Battle   |'
+                    print('|                             Combat Begins!                                   |')
                     self.hero.attack_enemy(self.monster)
                     break
                 if choice == 2:

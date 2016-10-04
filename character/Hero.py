@@ -77,7 +77,7 @@ class Hero(Character):
         if full_rest:
             self.current_hp += self.level*2
             print('By getting a full nights sleep you gained {} hitpoints.'.format(self.level*2))
-        else:
+        if full_rest == False:
             self.current_hp += self.level
             print("By being interrupted by an attack you only gained {} hitpoints.".format(self.level))
 

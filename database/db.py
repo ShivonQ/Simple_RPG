@@ -13,7 +13,7 @@ import sqlite3
 db = SqliteDatabase('./game/simple_rpg.db')
 
 
-def did_random_rest_encounter_occur():
+def did_random_rest_encounter_occur(hero):
     chance = randint(1, 100)
     chance_range = (10)
     if chance <= chance_range:
@@ -22,7 +22,7 @@ def did_random_rest_encounter_occur():
         monster_chance = (50)
         if encounter_chance <= monster_chance:
             print('You are attacked by a monster while you were trying to sleep!')
-            random_monster_encounter()
+            random_monster_encounter(hero)
             return True
         else:
             print('A wandering merchant approaches your camp')
@@ -30,7 +30,7 @@ def did_random_rest_encounter_occur():
 
     else:
         print('You sleep peacefully.')
-        Hero.gain_hp_from_rest()
+        hero.gain_hp_from_rest(True)
         return False
 
 
@@ -81,9 +81,9 @@ def fetch_monster_make_object(level):
     while error:
         try:
             for monster in Monster_Model.select():
-                print('Made it into the loop1')
+                # print('Made it into the loop1')
                 if monster.level == level:
-                    print('made it into the loop')
+                    # print('made it into the loop')
                     loop_mon = Monster(monster.name,monster.xp_value,monster.money,monster.level)
                     loop_mon.set_str_and_armor(monster.strength, monster.armor, monster.max_hp)
                     sleep(0.1)
@@ -100,19 +100,30 @@ def fetch_monster_make_object(level):
 
 def fetch_hero_make_object(name):
     # get the save data
-    this_hero = Hero_Model.get(Hero_Model.name.startswith(name))
-    # initialize the object
-    hero_object = Hero(name)
-    # call the set_opened_save function
-    hero_object.set_opened_save_stats(this_hero.current_hp,
-                                      this_hero.max_hp,
-                                      this_hero.armor,
-                                      this_hero.strength,
-                                      this_hero.xp,
-                                      this_hero.level,
-                                      this_hero.money,
-                                      this_hero.next_level)
-    return hero_object
+    try:
+        this_hero = Hero_Model.get(Hero_Model.name.startswith(name))
+        # initialize the object
+        hero_object = Hero(name)
+        # call the set_opened_save function
+        hero_object.set_opened_save_stats(this_hero.current_hp,
+                                          this_hero.max_hp,
+                                          this_hero.armor,
+                                          this_hero.strength,
+                                          this_hero.xp,
+                                          this_hero.level,
+                                          this_hero.money,
+                                          this_hero.next_level)
+        return hero_object
+    except DoesNotExist:
+        return False
+
+
+def check_if_hero_exists(hero_object):
+    try:
+        this_hero = Hero_Model.get(Hero_Model.name.startswith(hero_object.name))
+        return True
+    except DoesNotExist:
+        return False
 
 
 def modify_hero_save(hero_object):
@@ -147,6 +158,7 @@ def check_for_admin_priveleges(username, password):
     except DoesNotExist:
         display_invalid_login_attempt()
         return False
+
 
 
 def delete_hero(hero_name):
@@ -187,7 +199,7 @@ def show_all_monsters():
 #start of the merchant block
 
 def add_merchant(merchant_object):
-    print('Adding a Merchant')
+    # print('Adding a Merchant')
     new_merchant = Merchant_Model.create(name=merchant_object.name,
                                                     max_hp=merchant_object.max_hp,
                                                     money=merchant_object.money,
